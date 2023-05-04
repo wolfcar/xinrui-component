@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.11</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.xinrui.component</groupId>
+    <artifactId>xinrui-component</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>xinrui-component</name>
+    <description>微服务化组件</description>
+
+    <contributors>
+        <contributor>
+            <name>jerry</name>
+            <email>chedejun@126.com</email>
+        </contributor>
+    </contributors>
+
+    <scm>
+    </scm>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <xinrui-component.version>1.0.0-SNAPSHOT</xinrui-component.version>
+        <transmittable.thread.local.version>2.12.2</transmittable.thread.local.version>
+        <com.alibaba.fastjson2.version>2.0.29</com.alibaba.fastjson2.version>
+        <org.redssion.spring.boot.version>3.20.1</org.redssion.spring.boot.version>
+    </properties>
+
+    <modules>
+        <module>xinrui-common</module>
+        <module>xinrui-swak</module>
+        <module>xinrui-idempotent</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${transmittable.thread.local.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${org.redssion.spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${com.alibaba.fastjson2.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
