@@ -1,8 +1,6 @@
 package com.xinrui.component.strategy.config;
 
 import com.xinrui.component.strategy.core.StrategyBizExecutor;
-import com.xinrui.component.swak.core.LookupSwakBiz;
-import com.xinrui.component.swak.core.SwakBizExecutor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
