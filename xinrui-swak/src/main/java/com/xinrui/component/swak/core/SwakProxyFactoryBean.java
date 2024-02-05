@@ -26,14 +26,13 @@ import java.lang.reflect.Proxy;
  * @since guoke-component
  */
 @Slf4j
-public class SwakProxyFactoryBean implements FactoryBean, InvocationHandler, BeanClassLoaderAware, ApplicationContextAware {
+public class SwakProxyFactoryBean implements FactoryBean, InvocationHandler, BeanClassLoaderAware {
 
     private ClassLoader classLoader;
     @Setter
     private Class<?> swakInterfaceClass;
 
 
-    private LookupSwakBiz lookupSwakBiz;
 
 
     @Override
@@ -43,7 +42,7 @@ public class SwakProxyFactoryBean implements FactoryBean, InvocationHandler, Bea
             log.debug("SwakBiz proxy invoke:{}", method.getName());
         }
         Class<?> declaringClass = method.getDeclaringClass();
-        Object bean = lookupSwakBiz.lookupBean(declaringClass, SwakContext.get());
+        Object bean = LookupSwakBiz.lookupBean(declaringClass, SwakContext.get());
         // 获取方法调用返回
         Method targetMethod = bean.getClass().getMethod(method.getName(),
                 method.getParameterTypes());
@@ -76,8 +75,5 @@ public class SwakProxyFactoryBean implements FactoryBean, InvocationHandler, Bea
     }
 
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.lookupSwakBiz=applicationContext.getBean(LookupSwakBiz.class);
-    }
+
 }

@@ -37,6 +37,7 @@
         <module>xinrui-common</module>
         <module>xinrui-swak</module>
         <module>xinrui-idempotent</module>
+        <module>xinrui-strategy</module>
     </modules>
 
     <dependencies>
