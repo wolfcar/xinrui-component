@@ -1,8 +1,6 @@
 package com.xinrui.component.strategy.config;
 
 
-import com.xinrui.component.strategy.IStrategyEnum;
-
 /**
  * <b><code>SwakConstants</code></b>
  * <p/>
