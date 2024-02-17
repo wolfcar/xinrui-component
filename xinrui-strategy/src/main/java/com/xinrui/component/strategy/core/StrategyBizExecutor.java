@@ -17,7 +17,7 @@ public class StrategyBizExecutor implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
     /**
-     *
+     * 设置applicationContext
      * @param applicationContext
      * @throws BeansException
      */

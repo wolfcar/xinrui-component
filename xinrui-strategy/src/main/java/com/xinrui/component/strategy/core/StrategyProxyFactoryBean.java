@@ -12,6 +12,9 @@ import java.lang.reflect.Proxy;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
+/**
+ * 策略代理工厂
+ */
 @Slf4j
 public class StrategyProxyFactoryBean implements FactoryBean, InvocationHandler, BeanClassLoaderAware {
 
@@ -19,17 +22,23 @@ public class StrategyProxyFactoryBean implements FactoryBean, InvocationHandler,
     @Setter
     private Class<?> strategyInterfaceClass;
 
+    /**
+     * 代理方法
+     *
+     * @return
+     * @throws Throwable
+     */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         if (log.isDebugEnabled()) {
-            log.debug("strategy proxy invoke:{}#{}", strategyInterfaceClass.getSimpleName(),method.getName());
+            log.debug("strategy proxy invoke:{}#{}", strategyInterfaceClass.getSimpleName(), method.getName());
         }
 
         Class<?> declaringClass = method.getDeclaringClass();
 
         Object arg = args[0];
-        if(!(arg instanceof IStrategyEnum)){
-           throw new RuntimeException("获取策略失败，方法定义有误，方法需以实现IStrategyEnum接品的枚举做第一个参数");
+        if (!(arg instanceof IStrategyEnum)) {
+            throw new RuntimeException("获取策略失败，方法定义有误，方法需以实现IStrategyEnum接品的枚举做第一个参数");
         }
 
 
@@ -45,17 +54,31 @@ public class StrategyProxyFactoryBean implements FactoryBean, InvocationHandler,
 
     }
 
+    /**
+     * 设置classLoader
+     *
+     * @param classLoader
+     */
     @Override
     public void setBeanClassLoader(ClassLoader classLoader) {
-        this.classLoader=classLoader;
+        this.classLoader = classLoader;
 
     }
 
+    /**
+     * 获取代理对象
+     *
+     * @return
+     */
     @Override
     public Object getObject() {
         return Proxy.newProxyInstance(this.classLoader, new Class[]{strategyInterfaceClass}, this);
     }
 
+    /**
+     * 获取代理对象类型
+     * @return
+     */
     @Override
     public Class<?> getObjectType() {
         return this.strategyInterfaceClass;

@@ -17,6 +17,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class StrategyConfiguration {
 
+    /**
+     * 策略业务执行器
+     * @return
+     */
     @Bean
     public StrategyBizExecutor strategyBizExecutor() {
         return new StrategyBizExecutor();

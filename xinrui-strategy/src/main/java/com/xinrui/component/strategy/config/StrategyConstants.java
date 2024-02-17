@@ -25,7 +25,7 @@ public class StrategyConstants {
     /**
      *
      * @param name
-     * @param strategyEnum
+     * @param strategyCode
      * @return
      */
     public static String parseBeanName(String name, String strategyCode) {

@@ -9,11 +9,16 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
+/**
+ * 策略bean注册到spring容器
+ */
 public class StrategyBizBeanPostProcessor implements BeanPostProcessor, BeanFactoryAware {
     private DefaultListableBeanFactory beanFactory;
 
 
     /**
+     * 设置beanFactory
+     *
      * @param beanFactory
      * @throws BeansException
      */
@@ -22,11 +27,27 @@ public class StrategyBizBeanPostProcessor implements BeanPostProcessor, BeanFact
         this.beanFactory = (DefaultListableBeanFactory) beanFactory;
     }
 
+    /**
+     * bean初始化之前
+     *
+     * @param bean
+     * @param beanName
+     * @return
+     * @throws BeansException
+     */
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         return bean;
     }
 
+    /**
+     * bean初始化之后
+     *
+     * @param bean
+     * @param beanName
+     * @return
+     * @throws BeansException
+     */
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         Class<?> targetClass = AopUtils.isAopProxy(bean) ? AopUtils.getTargetClass(bean) : bean.getClass();
