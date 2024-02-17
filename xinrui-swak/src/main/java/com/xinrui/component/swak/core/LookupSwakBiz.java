@@ -26,6 +26,7 @@ import static com.xinrui.component.swak.config.SwakConstants.SWAK_DEFAULT_TAG;
  * @since guoke-component
  */
 @Slf4j
+
 public class LookupSwakBiz implements ApplicationContextAware {
     /**
      *
@@ -39,18 +40,49 @@ public class LookupSwakBiz implements ApplicationContextAware {
      * @return
      */
     public static <T> T lookupBean(Class<T> clazz, SwakThreadContext context) {
-        log.info("swak-查询执行策略入参：{}", JSON.toJSONString(context));
+        SwakThreadContext copySwakThreadContext = new SwakThreadContext(context.getBizCode(), context.getTag());
+        T t = lookupBizBean(clazz, copySwakThreadContext);
+        if (Objects.isNull(t)) {
+            copySwakThreadContext = new SwakThreadContext(context.getBizCode(), context.getTag());
+            t = lookupTagBean(clazz, copySwakThreadContext);
+        }
+        if (Objects.isNull(t)) {
+            SwakThreadContext nextContext = new SwakThreadContext(SWAK_DEFAULT_BIZ, SWAK_DEFAULT_BIZ);
+            return lookupBean(clazz, nextContext);
+        }
+        return t;
+    }
+
+
+    public static <T> T lookupBizBean(Class<T> clazz, SwakThreadContext context) {
+
+
+        log.info("swak-查询biz{},执行策略入参：{}", clazz.getSimpleName(), JSON.toJSONString(context));
         String beanName = SwakConstants.parseBeanName(clazz.getName(), context);
         if (applicationContext.containsBean(beanName)) {
             log.info("swak 执行【{}】策略,业务身份{}，场景:{}", clazz.getSimpleName(), context.getBizCode(), context.getTag());
             return applicationContext.getBean(beanName, clazz);
         } else if (!Objects.equals(context.getTag(), SWAK_DEFAULT_TAG)) {
             SwakThreadContext nextContext = new SwakThreadContext(context.getBizCode(), SWAK_DEFAULT_TAG);
-            return lookupBean(clazz, nextContext);
-        } else {
-            SwakThreadContext nextContext = new SwakThreadContext(SWAK_DEFAULT_BIZ, context.getTag());
-            return lookupBean(clazz, nextContext);
+            return lookupBizBean(clazz, nextContext);
         }
+        return null;
+
+    }
+
+    public static <T> T lookupTagBean(Class<T> clazz, SwakThreadContext context) {
+
+
+        log.info("swak-查询tag{},执行策略入参：{}", clazz.getSimpleName(), JSON.toJSONString(context));
+        String beanName = SwakConstants.parseBeanName(clazz.getName(), context);
+        if (applicationContext.containsBean(beanName)) {
+            log.info("swak 执行【{}】策略,业务身份{}，场景:{}", clazz.getSimpleName(), context.getBizCode(), context.getTag());
+            return applicationContext.getBean(beanName, clazz);
+        } else if (!Objects.equals(context.getBizCode(), SWAK_DEFAULT_BIZ)) {
+            SwakThreadContext nextContext = new SwakThreadContext(SWAK_DEFAULT_BIZ, context.getTag());
+            return lookupTagBean(clazz, nextContext);
+        }
+        return null;
     }
 
     @Override
